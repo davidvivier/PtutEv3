@@ -11,15 +11,17 @@
 
 #define MOTOR_A 1
 #define MOTOR_B 2
-#define MOTOR_C 3
-#define MOTOR_D 4
+#define MOTOR_C 4
+#define MOTOR_D 8
 
 
 #define MOTOR_LEFT MOTOR_A
-#define MOTOR_RIGHT MOTOR_D
+#define MOTOR_RIGHT MOTOR_C
 
 #define MOTOR_HEAD MOTOR_B
 
+
+#define USE_EV3
 
 
 #define SENSOR_1 1
@@ -28,6 +30,37 @@
 #define SENSOR_4 4
 
 #define SENSOR_ULTRASOUND SENSOR_2
+
+
+// youenn
+#define OCTET_DEBUT_TRANSMISSION 1
+#define OCTET_FIN_TRANSMISSION 253
+
+#define OCTET_ERREUR 4
+
+// youenn
+#define OCTET_STOP 100 // stop moteurs
+
+// youenn
+#define OCTET_AVANCER 10
+#define OCTET_RECULER 20
+
+// youenn
+#define OCTET_TOURNER_DROITE 40
+#define OCTET_TOURNER_GAUCHE 30
+
+#define OCTET_SET_VITESSE 50 // facultatif
+
+#define OCTET_TETE_FACE 81
+#define OCTET_TETE_GAUCHE 82
+#define OCTET_TETE_DROITE 83
+
+
+#define OCTET_DEMANDE_MSG 3
+
+
+#define OCTET_START_CUSTOM_PROGRAM 70
+
 
 #define VERBOSE TRUE
 
@@ -44,7 +77,34 @@ int motor_3;
 int motor_4;
 */
 
+int motorStart(unsigned char motor, int speed);
+
+
+int motorStop(int motor);
+int motorSTOP(int motor);
+int isRunning(int motor);
+int stopAllMotors();
+
+int setMotorPolarity(int motor, int polarity);
+
+int forward(int speed);
+int backward(int speed);
+
+int tournerGauche(int speed);
+int tournerDroite(int speed);
+
+int teteEnFace();
+
+int sensorRead(int port);
+
+int getMotorPosition(int motor);
+int setMotorPosition(int motor, int wantedPosition, int tolerance, int speed);
+int addDegreesToMotor(int motor, int degrees, int tolerance, int speed);
+int getMotorSpeed(int motor);
+
+
 int wall(int range);
-int wall();
+//#define wall() wall(DEFAULT_SPEED)
+//int wall();
 
 #endif

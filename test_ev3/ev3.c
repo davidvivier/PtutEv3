@@ -128,7 +128,7 @@ ev3_error_t ev3_recv_buf( ev3_t *ev3, char *buf, int len )  {
 }
 
 
-int send(struct ev3_t *EV314_hdl, int count, ...) {
+int sendBytes(struct ev3_t *EV314_hdl, int count, ...) {
   va_list ap;
   int j;
 
@@ -136,7 +136,7 @@ int send(struct ev3_t *EV314_hdl, int count, ...) {
 
   va_start(ap, count);
   if (VERBOSE)
-    printf("in send() :\n");
+    printf(" in sendBytes() :\n");
   for (j = 0; j < count; j++) {
     unsigned char byte = va_arg(ap, int);
     if (VERBOSE)

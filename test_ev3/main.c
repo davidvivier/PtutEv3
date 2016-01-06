@@ -1,11 +1,14 @@
 
 
 #include "ev3.h"
-
+#include "api.h"
 #include "program.h"
 
 
-void main( void )  {
+int main( void )  {
+
+  robot();
+  return 0;
   //ev3_t           *ev3 = NULL;
   ev3 = NULL;
   ev3_error_t     status;
@@ -64,16 +67,21 @@ void main( void )  {
     fprintf( stderr, "Libusb initialization error.\n" );
     exit( -1 );
   }
-    
+  
+
+  #ifdef USE_EV3
+
   /* Look for an EV3 in USB devices list and open it if found */
   status = ev3_find_and_open( ev3 );
   if ( status )  {
     if ( status == EV3_NOT_PRESENT )
       fprintf( stderr, "EV3 not found. Is it properly plugged in USB port?\n" );
     else
-      fprintf( stderr, "Error while scanning for EV3.\n" );
+      fprintf( stderr, "Error while scanning for EV3. (try with sudo)\n" );
     exit( -2 );
   }
+
+  #endif
     
   /* Move 32 bit constant to global variable (response buffer) */
   clock_gettime( CLOCK_MONOTONIC, &ts1 );

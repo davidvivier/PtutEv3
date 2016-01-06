@@ -68,7 +68,45 @@ ev3_error_t ev3_send_buf( ev3_t *ev3, char *buf, int len );
 ev3_error_t ev3_recv_buf( ev3_t *ev3, char *buf, int len );
 
 
-int send(struct ev3_t *EV314_hdl, int count, ...);
+int sendBytes(struct ev3_t *EV314_hdl, int count, ...);
+
+
+
+
+// from https://github.com/mindboards/ev3sources/blob/master/lms2012/c_com/source/c_com.h
+
+#include  <sys/types.h>
+#include <dirent.h>
+
+#include "lmstypes.h"
+
+
+
+typedef   UWORD     CMDSIZE;
+typedef   UWORD     MSGCNT;
+
+
+typedef   struct                        //!< Common command struct
+{
+  CMDSIZE CmdSize;
+  MSGCNT  MsgCnt;
+  UBYTE   Cmd;
+  UBYTE   PayLoad[];                    //!< Pay load is DIRCMD or SYSCMD
+}
+COMCMD;
+
+
+
+typedef   struct                        //!< Direct command struct
+{
+  UBYTE   Globals;
+  UBYTE   Locals;
+  UBYTE   Code[];
+}
+DIRCMD;
+
+
+
 
 
 #endif
