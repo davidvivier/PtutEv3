@@ -21,20 +21,20 @@
 #define MOTOR_HEAD MOTOR_B
 
 
-#define USE_EV3
+//#define USE_EV3
 
 
 #define SENSOR_1 1
 #define SENSOR_2 2
-#define SENSOR_3 3
-#define SENSOR_4 4
+#define SENSOR_3 4
+#define SENSOR_4 8
 
 #define SENSOR_ULTRASOUND SENSOR_2
 
 
 // youenn
 #define OCTET_DEBUT_TRANSMISSION 1
-#define OCTET_FIN_TRANSMISSION 253
+#define OCTET_FIN_TRANSMISSION 127
 
 #define OCTET_ERREUR 4
 
@@ -45,11 +45,18 @@
 #define OCTET_AVANCER 10
 #define OCTET_RECULER 20
 
+
+#define OCTET_START_MOTOR 90	
+							// + motor + speed
+#define OCTET_STOP_MOTOR 91
+
 // youenn
 #define OCTET_TOURNER_DROITE 40
 #define OCTET_TOURNER_GAUCHE 30
 
-#define OCTET_SET_VITESSE 50 // facultatif
+#define OCTET_SET_VITESSE 50 
+
+#define OCTET_INVERT_POLARITY 60
 
 #define OCTET_TETE_FACE 81
 #define OCTET_TETE_GAUCHE 82
@@ -62,9 +69,9 @@
 #define OCTET_START_CUSTOM_PROGRAM 70
 
 
-#define VERBOSE TRUE
+#define VERBOSE FALSE
 
-#define DEFAULT_SPEED 0x14
+#define DEFAULT_SPEED 0x40
 
 #define motorSpeed(motor) motorSpeed(motor, DEFAULT_SPEED)
 //#define forward(void) forward(DEFAULT_SPEED)
@@ -77,18 +84,29 @@ int motor_3;
 int motor_4;
 */
 
-int motorStart(unsigned char motor, int speed);
+int motorStart(unsigned char motor);
+
+int motorSetSpeed(unsigned char motor, int speed);
 
 
 int motorStop(int motor);
+int stopAllMotors();
+
+int invertMotorPolarity(int motor);
+
+int distanceCapteur();
+
+
+
+
 int motorSTOP(int motor);
 int isRunning(int motor);
-int stopAllMotors();
+
 
 int setMotorPolarity(int motor, int polarity);
 
-int forward(int speed);
-int backward(int speed);
+int forward();
+int backward();
 
 int tournerGauche(int speed);
 int tournerDroite(int speed);
@@ -106,5 +124,8 @@ int getMotorSpeed(int motor);
 int wall(int range);
 //#define wall() wall(DEFAULT_SPEED)
 //int wall();
+
+
+void turnTU(int motor);
 
 #endif

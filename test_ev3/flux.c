@@ -33,13 +33,14 @@ int Main() {
 
 #endif
 
-char listenSocket() {
+char* listenSocket() {
 
    //int *a = calloc(4, sizeof(int));
    //int b = a[50];
  
    int sockfd, newsockfd, portno, clilen;
-   char buffer[256];
+   //char buffer[256];
+   char* buffer = malloc(256*sizeof(char));
    struct sockaddr_in serv_addr, cli_addr;
    int  n;
    
@@ -116,7 +117,7 @@ char listenSocket() {
       printf("Received : \n");
       int i = 0;
       for (i = 0; i < 16; i++) {
-      		printf("%d-", buffer[i]);
+      		printf("0x%02x-", buffer[i]);
       }
       int *a = malloc(4*sizeof(int));
       int b = a[50];
@@ -125,6 +126,15 @@ char listenSocket() {
 
       /* Write a response to the client */
       //n = write(newsockfd,"May the Force be with you",25);
+
+
+      char res = 0;
+
+      for (i = 0; i < 255; i++) {
+         res = res ^ buffer[i];
+      }
+
+      n = write(newsockfd, &res, 1);
       printf("6-");
 
       if (n < 0) {
@@ -138,7 +148,7 @@ char listenSocket() {
    close(sockfd);
    close(newsockfd);
       
-   return buffer[3];
+   return buffer;
 }
 
 

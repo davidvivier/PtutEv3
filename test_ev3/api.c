@@ -14,7 +14,7 @@ int motorStart(int motor) {
                   //  0x14 = 16x1 + 4 = 20
 }*/
 
-int motorStart(unsigned char motor, int speed) {
+int motorStart(unsigned char motor) {
   printf("in motorStart(%d)\n", motor);
   int success = sendBytes(ev3, 10, 0x08, 0x00,
                               0x00, 0x00,
@@ -38,7 +38,7 @@ int motorSetSpeed(unsigned char motor, int speed) {
                               0x00, 0x00,
                               //0xA4, 0x00, motor,  speed,
                               opOUTPUT_SPEED, 0x00, motor, speed);
-  printf(" motorStart - success = %d\n", success);
+  printf(" motorSetSpeed - success = %d\n", success);
   if (success != EV3_OK) {
     return FALSE;
   }
@@ -117,7 +117,12 @@ int setMotorPolarity(int motor, int polarity) {
 }
 
 
-int forward(int speed) {
+int invertMotorPolarity(int motor) {
+  return setMotorPolarity(motor, 0);
+}
+
+
+int forward() {
   int success = 0;
   /*
   // polarités à adapter
@@ -127,17 +132,17 @@ int forward(int speed) {
   success += motorStart(MOTOR_D, speed);
   */
 
-  success = motorStart(MOTOR_LEFT | MOTOR_RIGHT, DEFAULT_SPEED);
+  success = motorStart(MOTOR_LEFT | MOTOR_RIGHT);
 
   return success;
 }
 
-int backward(int speed) {
+int backward() {
   int success = 0;
   success += setMotorPolarity(MOTOR_A, 1);
   success += setMotorPolarity(MOTOR_D, 1);
-  success += motorStart(MOTOR_A, speed);
-  success += motorStart(MOTOR_D, speed);
+  success += motorStart(MOTOR_A);
+  success += motorStart(MOTOR_D);
   return success;
 }
 
@@ -164,8 +169,10 @@ int teteEnFace() {
 
 
 int sensorRead(int port) {
+  
   if (VERBOSE)
     printf(" in sensorRead(%d)\n", port);
+    
   int success = sendBytes(ev3, 13, 0x0B, 0x00,
 				  			  0x00, 0x00,
 				  			  0x00,
@@ -192,6 +199,10 @@ int sensorRead(int port) {
   return res[5];
 }
 
+int distanceCapteur() {
+  return sensorRead(1);
+}
+
 /*
 Is there a wall within the specified range ?
 */
@@ -208,13 +219,30 @@ int getMotorPosition(int motor) {
   if (VERBOSE)
       printf(" in getMotorPosition(%d)\n", motor);
 
-  int success = sendBytes(ev3, 15,  0x0D,  0x00,
+    int port = 16;
+    switch (motor) {
+      case MOTOR_A:
+        port = 16;
+        break;
+        case MOTOR_B:
+        port = 17;
+        break;
+        case MOTOR_C:
+        port = 18;
+        break;
+        case MOTOR_D:
+        port = 19;
+        break;
+    }
+
+  int success = sendBytes(ev3, 11,  0x09,  0x00,
                           0x00, 0x00,
                           0x00, // need response
                           0x01, 0x00, // 
-                          opINPUT_DEVICE, READY_SI, 0x00, motor, 0x00, 0x00, 0x01, 0x60);
-                          //opINPUT_DEVICE, LC0(READY_SI), LC0(0), LC0(17), LC0(0), LC0(0), LC0(1), LV0(1));
-                          //opINPUT_DEVICE_LIST,LC0(4),GV0(0),GV0(4));
+                          0x99, LC0(GET_RAW), 0x00, port, 0x00, 0x00, 0x00, 0x60);
+                          //opINPUT_DEVICE, READY_SI, 0x00, motor, 0x00, 0x00, 0x01, 0x60);
+                          //opINPUT_DEVICE, LC0(opINPUT_READSI), LC0(0), LC0(motor), LC0(0), LC0(0), LC0(1), 0x60);
+                          //opINPUT_DEVICE_LIST,32);
  if (success != 0) { 
     printf("   error in getMotorPosition(%d) when sending bytes : %d\n", motor, success);
     return -1;
@@ -226,7 +254,7 @@ int getMotorPosition(int motor) {
     printf("   error in getMotorPosition(%d) when receiving bytes : %d\n", motor, success);
   }
   int i = 0;
-  if (VERBOSE) {
+  if (TRUE) {
     printf( "EV3 answer: " );
       for ( i = 0; i < sizeof( res ) - 1; i++ )
         printf( "0x%02x ", res[i] );
@@ -259,13 +287,13 @@ int setMotorPosition(int motor, int wantedPosition, int tolerance, int speed) {
   while (1) {
     currentPosition = getMotorPosition(motor);
     if (currentPosition < (wantedPosition - tolerance)) {
-      success = motorStart(motor, speed);
+      success = motorStart(motor);
       if (!success) {
         break;
       }
     }
     else if (currentPosition > (wantedPosition + tolerance)) {
-      success = motorStart(motor, speed);
+      success = motorStart(motor);
       if (!success)
         break;
     }
@@ -333,4 +361,23 @@ if (VERBOSE)
 
 
   return -1;
+}
+
+
+
+long facto(long n) {
+  if (n == 1)
+    return 1;
+  return n+facto(n-1);
+}
+
+// TU Turn Unit
+
+void turnTU(int motor) {
+    float eps = .5f;
+
+  motorStart(motor);
+  //sleep((int)eps);
+  facto(1000000);
+  motorStop(motor);
 }

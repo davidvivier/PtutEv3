@@ -7,8 +7,8 @@
 
 int main( void )  {
 
-  robot();
-  return 0;
+  //robot();
+  //return 0;
   //ev3_t           *ev3 = NULL;
   ev3 = NULL;
   ev3_error_t     status;
@@ -102,19 +102,20 @@ int main( void )  {
   //status = ev3_recv_buf( ev3, input_read, sizeof( input_read) - 1 );
   clock_gettime( CLOCK_MONOTONIC, &ts2 );
   
-  /* Check the response */
-  printf( "PC->EV3->PC: %dus\n",
-    (int)( ts2.tv_sec - ts1.tv_sec ) * 1000000 + (int)( ts2.tv_nsec - ts1.tv_nsec ) / 1000 );
-  if ( status != EV3_OK )
-    fprintf( stderr, "EV3 USB read error.\n" );
-  else
-  {
-    /* Display the response */
-    printf( "EV3 answer: " );
-    for ( i = 0; i < sizeof( input_read ) - 1; i++ )
-      printf( "0x%02x ", input_read  [i] );
-    printf( "\n" );
-  }
+
+  // /* Check the response */
+  // printf( "PC->EV3->PC: %dus\n",
+  //   (int)( ts2.tv_sec - ts1.tv_sec ) * 1000000 + (int)( ts2.tv_nsec - ts1.tv_nsec ) / 1000 );
+  // if ( status != EV3_OK )
+  //   fprintf( stderr, "EV3 USB read error.\n" );
+  // else
+  // {
+  //   /* Display the response */
+  //   printf( "EV3 answer: " );
+  //   for ( i = 0; i < sizeof( input_read ) - 1; i++ )
+  //     printf( "0x%02x ", input_read  [i] );
+  //   printf( "\n" );
+  // }
   
   /* Close EV3 USB port */
   ev3_close( ev3 );

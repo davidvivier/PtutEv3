@@ -5,7 +5,7 @@
 
 #include "api.h"
 
-char listenSocket();
+char* listenSocket();
 int sendSocket(char msg[]);
 
 

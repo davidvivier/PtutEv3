@@ -1,0 +1,20 @@
+#include <time.h>
+void programmetest ()(
+    time_t t1,t0;
+	int seuilCapteur = 30;
+	motorStart(MOTOR_LEFT | MOTOR_RIGHT);//left 0001 right 0100
+	t0=cklok();// premier tik
+	do(
+	   if(distanceCapteur()<= seuilCapteur)(
+	   motorStop(MOTOR_LEFT | MOTOR_RIGHT);
+	   invertMotorPolarity(MOTOR_LEFT);
+	   motorStart(MOTOR_LEFT | MOTOR_RIGHT );
+	   sleep(1);
+	   motorStop(MOTOR_LEFT | MOTOR_RIGHT);
+	   invertMotorPolarity(MOTOR_LEFT);
+	   motorStart(MOTOR_LEFT | MOTOR_RIGHT);
+	   )
+	 t1=clock();
+	)while((t1-t0)/CLOCKS_PER_SEC<10); // (t1-t0)/CLOCKS_PER_SEC nombre de seconde
+	
+)
