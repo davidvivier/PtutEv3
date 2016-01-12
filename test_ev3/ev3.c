@@ -135,15 +135,16 @@ int sendBytes(struct ev3_t *EV314_hdl, int count, ...) {
   unsigned char bytes[count];
 
   va_start(ap, count);
-  if (VERBOSE)
+  if (VERBOSE || SIMULATION)
     printf(" in sendBytes() :\n");
   for (j = 0; j < count; j++) {
     unsigned char byte = va_arg(ap, int);
-    if (VERBOSE)
+    if (VERBOSE || SIMULATION)
       printf("  byte[%d]=0x%02x\n", j, byte);
     bytes[j] = byte;
   }
   va_end(ap);
+
 
   return ev3_send_buf(EV314_hdl, bytes, count);
 }

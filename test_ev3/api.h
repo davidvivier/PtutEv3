@@ -69,7 +69,11 @@
 #define OCTET_START_CUSTOM_PROGRAM 70
 
 
+
+
 #define VERBOSE FALSE
+
+#define SIMULATION FALSE
 
 #define DEFAULT_SPEED 0x40
 

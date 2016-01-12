@@ -108,7 +108,10 @@ int robot() {
 
 						port = octets[i];
 						printf(" - motor 0x%02x", port);
-
+						if (port == MOTOR_HEAD) {
+							printf("MOTOR_HEAD : vitesse reduite\n");
+						}
+						motorSetSpeed(MOTOR_HEAD, 5);
 						motorStart(port);
 
 						break;

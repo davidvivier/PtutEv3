@@ -133,7 +133,7 @@ char* listenSocket() {
       for (i = 0; i < 255; i++) {
          res = res ^ buffer[i];
       }
-
+      printf("Renvoi a la tablette : %d\n", res);
       n = write(newsockfd, &res, 1);
       printf("6-");
 

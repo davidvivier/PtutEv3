@@ -1,7 +1,8 @@
 
-IP="192.168.43.94"
+IP="192.168.1.20"
 
 
-scp -r api.c api.h program.c program.h flux.c flux.h pi@$IP:/home/pi/test_ev3
 	
+#scp -r api.c api.h program.c program.h flux.c flux.h pi@$IP:/home/pi/test_ev3
+scp -r * pi@$IP:/home/pi/test_ev3
 
