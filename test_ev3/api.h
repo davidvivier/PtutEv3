@@ -71,7 +71,7 @@
 
 
 
-#define VERBOSE FALSE
+#define VERBOSE TRUE
 
 #define SIMULATION FALSE
 

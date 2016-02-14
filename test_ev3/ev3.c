@@ -92,9 +92,11 @@ ev3_error_t ev3_close( ev3_t *ev3 )  {
 
 ev3_error_t ev3_send_buf( ev3_t *ev3, char *buf, int len )  {
   int  status, transfered = 0;
-  
+  printf("1\n");
   status = libusb_bulk_transfer( ev3->hdl, EV3_EP_OUT, buf, len, &transfered, EV3_USB_TIMEOUT );
-  
+  printf("2\n");
+  printf("status = %d\n", status);
+
   if ( status  )
     return EV3_USB_WRITE_ERROR;
   
@@ -145,8 +147,10 @@ int sendBytes(struct ev3_t *EV314_hdl, int count, ...) {
   }
   va_end(ap);
 
+  int res = ev3_send_buf(EV314_hdl, bytes, count);
+  printf(" res sendBytes = %d\n", res);
 
-  return ev3_send_buf(EV314_hdl, bytes, count);
+  return res;
 }
 
 
