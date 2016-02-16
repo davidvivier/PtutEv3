@@ -26,15 +26,15 @@
 
 #ifndef LEGO_SIMULATION
 
-typedef   unsigned char         UBYTE;  //!< Basic Type used to symbolise 8  bit unsigned values
-typedef   unsigned short        UWORD;  //!< Basic Type used to symbolise 16 bit unsigned values
-typedef   unsigned int          ULONG;  //!< Basic Type used to symbolise 32 bit unsigned values
+typedef   unsigned char         PTUT_UBYTE;  //!< Basic Type used to symbolise 8  bit unsigned values
+typedef   unsigned short        PTUT_UWORD;  //!< Basic Type used to symbolise 16 bit unsigned values
+typedef   unsigned int          PTUT_ULONG;  //!< Basic Type used to symbolise 32 bit unsigned values
 
-typedef   signed char           SBYTE;  //!< Basic Type used to symbolise 8  bit signed values
-typedef   signed short          SWORD;  //!< Basic Type used to symbolise 16 bit signed values
-typedef   signed int            SLONG;  //!< Basic Type used to symbolise 32 bit signed values
+typedef   signed char           PTUT_SBYTE;  //!< Basic Type used to symbolise 8  bit signed values
+typedef   signed short          PTUT_SWORD;  //!< Basic Type used to symbolise 16 bit signed values
+typedef   signed int            PTUT_SLONG;  //!< Basic Type used to symbolise 32 bit signed values
 
-typedef   float                 FLOAT;  //!< Basic Type used to symbolise 32 bit floating point values
+typedef   float                 PTUT_FLOAT;  //!< Basic Type used to symbolise 32 bit floating point values
 
 #define   LFILE                 FILE
 
@@ -43,44 +43,44 @@ typedef   float                 FLOAT;  //!< Basic Type used to symbolise 32 bit
 #include  <Base/BasicTypes.h>
 #include  <VMCalls.h>
 
-typedef   LEGO::UInt8           UBYTE;  //!< Basic Type used to symbolise 8  bit unsigned values
-typedef   LEGO::UInt16          UWORD;  //!< Basic Type used to symbolise 16 bit unsigned values
-typedef   unsigned long         ULONG;  //!< Basic Type used to symbolise 32 bit unsigned values
+typedef   LEGO::UInt8           PTUT_UBYTE;  //!< Basic Type used to symbolise 8  bit unsigned values
+typedef   LEGO::UInt16          PTUT_UWORD;  //!< Basic Type used to symbolise 16 bit unsigned values
+typedef   unsigned long         PTUT_ULONG;  //!< Basic Type used to symbolise 32 bit unsigned values
 
 
-typedef   LEGO::Int8            SBYTE;  //!< Basic Type used to symbolise 8  bit signed values
-typedef   LEGO::Int16           SWORD;  //!< Basic Type used to symbolise 16 bit signed values
-typedef   LEGO::Int32           SLONG;  //!< Basic Type used to symbolise 32 bit signed values
+typedef   LEGO::Int8            PTUT_SBYTE;  //!< Basic Type used to symbolise 8  bit signed values
+typedef   LEGO::Int16           PTUT_SWORD;  //!< Basic Type used to symbolise 16 bit signed values
+typedef   LEGO::Int32           PTUT_SLONG;  //!< Basic Type used to symbolise 32 bit signed values
 
-typedef   LEGO::Real32          FLOAT;  //!< Basic Type used to symbolise 32 bit floating point values
+typedef   LEGO::Real32          PTUT_FLOAT;  //!< Basic Type used to symbolise 32 bit floating point values
 
 #endif
 
 //        VM DATA TYPES
 
-typedef   SBYTE                 DATA8;  //!< VM Type for 1 byte signed value
-typedef   SWORD                 DATA16; //!< VM Type for 2 byte signed value
-typedef   SLONG                 DATA32; //!< VM Type for 4 byte signed value
-typedef   FLOAT                 DATAF;  //!< VM Type for 4 byte floating point value
+typedef   PTUT_SBYTE                 DATA8;  //!< VM Type for 1 byte signed value
+typedef   PTUT_SWORD                 DATA16; //!< VM Type for 2 byte signed value
+typedef   PTUT_SLONG                 DATA32; //!< VM Type for 4 byte signed value
+typedef   PTUT_FLOAT                 DATAF;  //!< VM Type for 4 byte floating point value
 
 //        VM VARIABLE TYPES
 
-typedef   UBYTE             VARDATA;    //!< Variable base type
-typedef   UBYTE             IMGDATA;    //!< Image base type
+typedef   PTUT_UBYTE             VARDATA;    //!< Variable base type
+typedef   PTUT_UBYTE             IMGDATA;    //!< Image base type
 
-typedef   UWORD             PRGID;      //!< Program id type
+typedef   PTUT_UWORD             PRGID;      //!< Program id type
 
-typedef   UWORD             OBJID;      //!< Object id type
+typedef   PTUT_UWORD             OBJID;      //!< Object id type
 typedef   IMGDATA*          IP;         //!< Instruction pointer type
 typedef   VARDATA*          LP;         //!< Local variable pointer type
 typedef   VARDATA*          GP;         //!< global variable pointer type
 
-typedef   ULONG             IMINDEX;    //!< ImageData index type
-typedef   ULONG             GBINDEX;    //!< GlobalBytes index type
-typedef   ULONG             LBINDEX;    //!< LocalBytes index type
-typedef   UWORD             TRIGGER;    //!< TriggerCount type
-typedef   UBYTE             PARS;       //!< NoOfParameters type
-typedef   SLONG             IMOFFS;     //!< ImageData offset type
+typedef   PTUT_ULONG             IMINDEX;    //!< ImageData index type
+typedef   PTUT_ULONG             GBINDEX;    //!< GlobalBytes index type
+typedef   PTUT_ULONG             LBINDEX;    //!< LocalBytes index type
+typedef   PTUT_UWORD             TRIGGER;    //!< TriggerCount type
+typedef   PTUT_UBYTE             PARS;       //!< NoOfParameters type
+typedef   PTUT_SLONG             IMOFFS;     //!< ImageData offset type
 
 typedef   DATA16            HANDLER;    //!< Memory list index
 
@@ -143,9 +143,9 @@ typedef   DATA16            HANDLER;    //!< Memory list index
  */
 typedef   struct
 {
-  UBYTE   Sign[4];                      //!< Place holder for the file type identifier
+  PTUT_UBYTE   Sign[4];                      //!< Place holder for the file type identifier
   IMINDEX ImageSize;                    //!< Image size
-  UWORD   VersionInfo;                  //!< Version identifier
+  PTUT_UWORD   VersionInfo;                  //!< Version identifier
   OBJID   NumberOfObjects;              //!< Total number of objects in image
   GBINDEX GlobalBytes;                  //!< Number of bytes to allocate for global variables
 }

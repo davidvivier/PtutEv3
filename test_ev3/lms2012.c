@@ -115,7 +115,7 @@
 // UI bootloader
 //*****************************************************************************
 
-UBYTE     UiImage[] =
+PTUT_UBYTE     UiImage[] =
 {
   // IMAGE header
   PROGRAMHeader(0,1,0),                 // VersionInfo,Objects,GlobalBytes
@@ -267,10 +267,10 @@ void      SetDispatchStatus(DSPSTAT DspStat)
 
 /*! \brief    Set instructions
  *
- *  \param    ULONG Instructions
+ *  \param    PTUT_ULONG Instructions
  *
  */
-void      SetInstructions(ULONG Instructions)
+void      SetInstructions(PTUT_ULONG Instructions)
 {
   if (Instructions <= PRG_PRIORITY)
   {
@@ -312,27 +312,27 @@ void      SetObjectIp(IP Ip)
 }
 
 
-ULONG     GetTime(void)
+PTUT_ULONG     GetTime(void)
 {
   return (cTimerGetuS() - VMInstance.Program[VMInstance.ProgramId].RunTime);
 }
 
 
-ULONG     GetTimeMS(void)
+PTUT_ULONG     GetTimeMS(void)
 {
   return (cTimerGetmS());
 }
 
 
-ULONG     GetTimeUS(void)
+PTUT_ULONG     GetTimeUS(void)
 {
   return (cTimerGetuS());
 }
 
 
-ULONG     CurrentObjectIp(void)
+PTUT_ULONG     CurrentObjectIp(void)
 {
-  return ((ULONG)(VMInstance.ObjectIp - VMInstance.pImage));
+  return ((PTUT_ULONG)(VMInstance.ObjectIp - VMInstance.pImage));
 }
 
 
@@ -444,7 +444,7 @@ char      ErrString[ERRORS][ERR_STRING_SIZE] =
 
 void      LogErrorNumber(ERR Err)
 {
-  UBYTE   Tmp;
+  PTUT_UBYTE   Tmp;
 
   if (Err > TOO_MANY_ERRORS_TO_BUFFER)
   {
@@ -470,7 +470,7 @@ void      LogErrorNumber(ERR Err)
 DATA8     LogErrorNumberExists(ERR Error)
 {
   DATA8   Result = 0;
-  UBYTE   Tmp;
+  PTUT_UBYTE   Tmp;
 
   Tmp  =  VMInstance.ErrorOut;
   while ((Tmp != VMInstance.ErrorIn) && (Result == 0))
@@ -535,7 +535,7 @@ void      CleanLogErrors(void)
 DSPSTAT   ExecuteByteCode(IP pByteCode,GP pGlobals,LP pLocals)
 {
   DSPSTAT Result;
-  ULONG   Time;
+  PTUT_ULONG   Time;
 
   // Save running object parameters
   VMInstance.ObjIpSave            =  VMInstance.ObjectIp;
@@ -582,8 +582,8 @@ DSPSTAT   ExecuteByteCode(IP pByteCode,GP pGlobals,LP pLocals)
       VMInstance.OldTime2 +=  Time;
 
       usleep(10);
-      cInputUpdate((UWORD)Time);
-      cUiUpdate((UWORD)Time);
+      cInputUpdate((PTUT_UWORD)Time);
+      cUiUpdate((PTUT_UWORD)Time);
     }
   }
   Result                          =  VMInstance.DispatchStatus;
@@ -712,25 +712,25 @@ void*     PrimParPointer(void)
         case PRIMPAR_1_BYTE :
         { // One byte to follow
 
-          VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+          VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
         }
         break;
 
         case PRIMPAR_2_BYTES :
         { // Two bytes to follow
 
-          VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
-          VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
+          VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+          VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
         }
         break;
 
         case PRIMPAR_4_BYTES :
         { // Four bytes to follow
 
-          VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
-          VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
-          VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 16);
-          VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 24);
+          VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+          VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
+          VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 16);
+          VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 24);
         }
 
       }
@@ -751,12 +751,12 @@ void*     PrimParPointer(void)
       if (Data & PRIMPAR_LABEL)
       { // label
 
-        VMInstance.Value      =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+        VMInstance.Value      =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
 
         if ((VMInstance.Value > 0) && (VMInstance.Value < MAX_LABELS))
         {
-          VMInstance.Value    =  (ULONG)VMInstance.Program[VMInstance.ProgramId].Label[VMInstance.Value].Addr;
-          VMInstance.Value   -=  ((ULONG)VMInstance.ObjectIp - (ULONG)VMInstance.Program[VMInstance.ProgramId].pImage);
+          VMInstance.Value    =  (PTUT_ULONG)VMInstance.Program[VMInstance.ProgramId].Label[VMInstance.Value].Addr;
+          VMInstance.Value   -=  ((PTUT_ULONG)VMInstance.ObjectIp - (PTUT_ULONG)VMInstance.Program[VMInstance.ProgramId].pImage);
           Result              =  (void*)&VMInstance.Value;
         }
       }
@@ -779,7 +779,7 @@ void*     PrimParPointer(void)
           case PRIMPAR_1_BYTE :
           { // One byte to follow
 
-            VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+            VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
             if (VMInstance.Value & 0x00000080)
             { // Adjust if negative
 
@@ -791,8 +791,8 @@ void*     PrimParPointer(void)
           case PRIMPAR_2_BYTES :
           { // Two bytes to follow
 
-            VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
-            VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
+            VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+            VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
             if (VMInstance.Value & 0x00008000)
             { // Adjust if negative
 
@@ -804,10 +804,10 @@ void*     PrimParPointer(void)
           case PRIMPAR_4_BYTES :
           { // Four bytes to follow
 
-            VMInstance.Value    =  (ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
-            VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
-            VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 16);
-            VMInstance.Value   |=  ((ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 24);
+            VMInstance.Value    =  (PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++);
+            VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 8);
+            VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 16);
+            VMInstance.Value   |=  ((PTUT_ULONG)*((IMGDATA*)VMInstance.ObjectIp++)  << 24);
           }
 
         }
@@ -833,7 +833,7 @@ void*     PrimParPointer(void)
     if (Data & PRIMPAR_VARIABEL)
     { // variabel
 
-      VMInstance.Value  =  (ULONG)(Data & PRIMPAR_INDEX);
+      VMInstance.Value  =  (PTUT_ULONG)(Data & PRIMPAR_INDEX);
 
       if (Data & PRIMPAR_GLOBAL)
       { // global
@@ -849,12 +849,12 @@ void*     PrimParPointer(void)
     else
     { // constant
 
-      VMInstance.Value  =  (ULONG)(Data & PRIMPAR_VALUE);
+      VMInstance.Value  =  (PTUT_ULONG)(Data & PRIMPAR_VALUE);
 
       if (Data & PRIMPAR_CONST_SIGN)
       { // Adjust if negative
 
-        VMInstance.Value |= ~(ULONG)(PRIMPAR_VALUE);
+        VMInstance.Value |= ~(PTUT_ULONG)(PRIMPAR_VALUE);
       }
     }
   }
@@ -1005,7 +1005,7 @@ void      CopyParsToLocals(OBJID Id)
 
   TmpIp       =  VMInstance.ObjectIp;
   TypeIp      =  VMInstance.Program[VMInstance.ProgramId].pImage;
-  TypeIp      =  &TypeIp[(ULONG)VMInstance.pObjHead[Id].OffsetToInstructions];
+  TypeIp      =  &TypeIp[(PTUT_ULONG)VMInstance.pObjHead[Id].OffsetToInstructions];
   pLocals     =  (*VMInstance.pObjList[Id]).pLocal;
 
   NoOfPars    =  (PARS)*((IMGDATA*)TypeIp++);
@@ -1167,7 +1167,7 @@ void      CopyLocalsToPars(OBJID Id)
 
   // Point to start of sub
   TypeIp      =  VMInstance.Program[VMInstance.ProgramId].pImage;
-  TypeIp      =  &TypeIp[(ULONG)VMInstance.pObjHead[VMInstance.ObjectId].OffsetToInstructions];
+  TypeIp      =  &TypeIp[(PTUT_ULONG)VMInstance.pObjHead[VMInstance.ObjectId].OffsetToInstructions];
   pLocals     =  (*VMInstance.pObjList[VMInstance.ObjectId]).pLocal;
 
   NoOfPars    =  (PARS)*((IMGDATA*)TypeIp++);
@@ -1316,7 +1316,7 @@ void      CopyLocalsToPars(OBJID Id)
  */
 void      ObjectReset(OBJID ObjId)
 {
-  (*VMInstance.pObjList[ObjId]).Ip              =  &VMInstance.pImage[(ULONG)VMInstance.pObjHead[ObjId].OffsetToInstructions];
+  (*VMInstance.pObjList[ObjId]).Ip              =  &VMInstance.pImage[(PTUT_ULONG)VMInstance.pObjHead[ObjId].OffsetToInstructions];
 
   (*VMInstance.pObjList[ObjId]).u.TriggerCount  =  VMInstance.pObjHead[ObjId].TriggerCount;
 }
@@ -1378,7 +1378,7 @@ GBINDEX   GetAmountOfRamForImage(IP pI)
  *
  *
  */
-RESULT    ProgramReset(PRGID PrgId,IP pI,GP pG,UBYTE Deb)
+RESULT    ProgramReset(PRGID PrgId,IP pI,GP pG,PTUT_UBYTE Deb)
 {
 
   RESULT  Result = FAIL;
@@ -1456,7 +1456,7 @@ RESULT    ProgramReset(PRGID PrgId,IP pI,GP pG,UBYTE Deb)
 
         // Align & allocate ObjectPointerList (+1)
 
-        pData                       =  (VARDATA*)(((ULONG)pData + 3) & 0xFFFFFFFC);
+        pData                       =  (VARDATA*)(((PTUT_ULONG)pData + 3) & 0xFFFFFFFC);
         VMInstance.Program[PrgId].pObjList     =  (OBJ**)pData;
         pData                       =  &pData[sizeof(VMInstance.Program[PrgId].pObjList) * (VMInstance.Program[PrgId].Objects + 1)];
 
@@ -1468,7 +1468,7 @@ RESULT    ProgramReset(PRGID PrgId,IP pI,GP pG,UBYTE Deb)
         {
           // Align
 
-          pData       =  (VARDATA*)(((ULONG)pData + 3) & 0xFFFFFFFC);
+          pData       =  (VARDATA*)(((PTUT_ULONG)pData + 3) & 0xFFFFFFFC);
 
           // Save object pointer in Object list
 
@@ -1476,7 +1476,7 @@ RESULT    ProgramReset(PRGID PrgId,IP pI,GP pG,UBYTE Deb)
 
           // Initialise instruction pointer, trigger counts and status
 
-          (*VMInstance.Program[PrgId].pObjList[ObjIndex]).Ip              =  &pI[(ULONG)VMInstance.Program[PrgId].pObjHead[ObjIndex].OffsetToInstructions];
+          (*VMInstance.Program[PrgId].pObjList[ObjIndex]).Ip              =  &pI[(PTUT_ULONG)VMInstance.Program[PrgId].pObjHead[ObjIndex].OffsetToInstructions];
 
           (*VMInstance.Program[PrgId].pObjList[ObjIndex]).u.TriggerCount  =  VMInstance.Program[PrgId].pObjHead[ObjIndex].TriggerCount;
 
@@ -1829,7 +1829,7 @@ void      ObjectEnQueue(OBJID Id)
   if ((Id > 0) && (Id <= VMInstance.Objects))
   {
     (*VMInstance.pObjList[Id]).ObjStatus        =  RUNNING;
-    (*VMInstance.pObjList[Id]).Ip               = &VMInstance.pImage[(ULONG)VMInstance.pObjHead[Id].OffsetToInstructions];
+    (*VMInstance.pObjList[Id]).Ip               = &VMInstance.pImage[(PTUT_ULONG)VMInstance.pObjHead[Id].OffsetToInstructions];
     (*VMInstance.pObjList[Id]).u.TriggerCount   =  VMInstance.pObjHead[Id].TriggerCount;
   }
 }
@@ -1864,7 +1864,7 @@ DATA8     CheckSdcard(DATA8 *pChanged,DATA32 *pTotal,DATA32 *pFree,DATA8 Force)
   *pFree      =  0;
 
 #ifndef DISABLE_SDCARD_SUPPORT
-  ULONG   Time;
+  PTUT_ULONG   Time;
   struct  statvfs Status;
 
   Time  =  VMInstance.NewTime - VMInstance.SdcardTimer;
@@ -1965,7 +1965,7 @@ DATA8     CheckUsbstick(DATA8 *pChanged,DATA32 *pTotal,DATA32 *pFree,DATA8 Force
   *pFree      =  0;
 
 #ifndef DISABLE_USBSTICK_SUPPORT
-  ULONG   Time;
+  PTUT_ULONG   Time;
   struct  statvfs Status;
   DATAF   Tmp;
   char    Name[vmNAMESIZE];
@@ -2293,16 +2293,16 @@ RESULT    mSchedInit(int argc,char *argv[])
 }
 
 
-RESULT    mSchedCtrl(UBYTE *pRestart)
+RESULT    mSchedCtrl(PTUT_UBYTE *pRestart)
 {
   RESULT  Result   = FAIL;
-  ULONG   Time;
+  PTUT_ULONG   Time;
   IP      TmpIp;
 #ifdef DEBUG_TRACE_VM
   IMINDEX Index;
 #endif
 #ifdef DEBUG_TRACE_FREEZE
-  static  ULONG   Timer;
+  static  PTUT_ULONG   Timer;
   IMINDEX Addr;
 #endif
 
@@ -2419,14 +2419,14 @@ RESULT    mSchedCtrl(UBYTE *pRestart)
     }
 #endif
     usleep(10);
-    cInputUpdate((UWORD)Time);
-    cUiUpdate((UWORD)Time);
+    cInputUpdate((PTUT_UWORD)Time);
+    cUiUpdate((PTUT_UWORD)Time);
 
     if (VMInstance.Test)
     {
-      if (VMInstance.Test > (UWORD)Time)
+      if (VMInstance.Test > (PTUT_UWORD)Time)
       {
-        VMInstance.Test -=  (UWORD)Time;
+        VMInstance.Test -=  (PTUT_UWORD)Time;
       }
       else
       {
@@ -2466,7 +2466,7 @@ RESULT    mSchedCtrl(UBYTE *pRestart)
         LogErrorNumber(VM_PROGRAM_INSTRUCTION_BREAK);
       }
       TmpIp  =  VMInstance.ObjectIp - 1;
-      snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"\r\n%4u [%2d] ",(UWORD)(((ULONG)TmpIp) - (ULONG)VMInstance.pImage),VMInstance.ObjectId);
+      snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"\r\n%4u [%2d] ",(PTUT_UWORD)(((PTUT_ULONG)TmpIp) - (PTUT_ULONG)VMInstance.pImage),VMInstance.ObjectId);
       VmPrint(VMInstance.PrintBuffer);
       snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"VM       ERROR    [0x%02X]\r\n",*TmpIp);
       VmPrint(VMInstance.PrintBuffer);
@@ -2569,7 +2569,7 @@ RESULT    mSchedExit(void)
 int       main(int argc,char *argv[])
 {
   RESULT  Result = FAIL;
-  UBYTE   Restart;
+  PTUT_UBYTE   Restart;
 
   do
   {
@@ -2928,8 +2928,8 @@ void      ProgramStart(void)
   PRGID   PrgId;
   PRGID   TmpPrgId;
   IP      pI;
-  UBYTE   DB;
-  UBYTE   Flag = 0;
+  PTUT_UBYTE   DB;
+  PTUT_UBYTE   Flag = 0;
 
 
   PrgId  =  *(PRGID*)PrimParPointer();
@@ -3244,7 +3244,7 @@ void      ObjectCall(void)
  */
 void      ObjectEnd(void)
 {
-  (*VMInstance.pObjList[VMInstance.ObjectId]).Ip          =  &VMInstance.Program[VMInstance.ProgramId].pImage[(ULONG)VMInstance.Program[VMInstance.ProgramId].pObjHead[VMInstance.ObjectId].OffsetToInstructions];
+  (*VMInstance.pObjList[VMInstance.ObjectId]).Ip          =  &VMInstance.Program[VMInstance.ProgramId].pImage[(PTUT_ULONG)VMInstance.Program[VMInstance.ProgramId].pObjHead[VMInstance.ObjectId].OffsetToInstructions];
   (*VMInstance.pObjList[VMInstance.ObjectId]).ObjStatus   =  STOPPED;
   SetDispatchStatus(STOPBREAK);
 }
@@ -3350,7 +3350,7 @@ void      ProgramInfo(void)
           VMInstance.Program[PrgId].RunTime                             =  cTimerGetuS();
         }
         (*VMInstance.Program[PrgId].pObjList[ObjIndex]).ObjStatus       =  RUNNING;
-        (*VMInstance.Program[PrgId].pObjList[ObjIndex]).Ip              = &VMInstance.Program[PrgId].pImage[(ULONG)VMInstance.Program[PrgId].pObjHead[ObjIndex].OffsetToInstructions];
+        (*VMInstance.Program[PrgId].pObjList[ObjIndex]).Ip              = &VMInstance.Program[PrgId].pImage[(PTUT_ULONG)VMInstance.Program[PrgId].pObjHead[ObjIndex].OffsetToInstructions];
         (*VMInstance.Program[PrgId].pObjList[ObjIndex]).u.TriggerCount  =  VMInstance.Program[PrgId].pObjHead[ObjIndex].TriggerCount;
       }
     }
@@ -3377,7 +3377,7 @@ void      ProgramInfo(void)
     case SET_INSTR :
     {
       Instr  =  *(DATA16*)PrimParPointer();
-      SetInstructions((ULONG)Instr);
+      SetInstructions((PTUT_ULONG)Instr);
     }
     break;
 
@@ -3472,7 +3472,7 @@ void      Probe(void)
           snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"    %08lX ",(long unsigned int)(RamOffset + (GBINDEX)Tmp));
           VmPrint(VMInstance.PrintBuffer);
         }
-        snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"%02X ",(UBYTE)(*Ram & 0xFF));
+        snprintf(VMInstance.PrintBuffer,PRINTBUFFERSIZE,"%02X ",(PTUT_UBYTE)(*Ram & 0xFF));
         VmPrint(VMInstance.PrintBuffer);
         if (((Tmp & 0x0F) == 0xF) && (Tmp < (Size - 1)))
         {
@@ -4567,7 +4567,7 @@ void  System(void)
 
 void      Monitor(void)
 {
-  static  ULONG SavedPriority;
+  static  PTUT_ULONG SavedPriority;
   IMINDEX Index;
   LBINDEX Lv,Ln;
   OBJID   ObjId;
@@ -4739,7 +4739,7 @@ void      Monitor(void)
 }
 
 
-RESULT    TstOpen(UWORD Time)
+RESULT    TstOpen(PTUT_UWORD Time)
 {
   RESULT  Result = FAIL;
   int     File;
@@ -5373,8 +5373,8 @@ void      Tst(void)
 
         case TST_RAM_CHECK:
         {
-          ULONG      RamCheckFile;
-          UBYTE      RamStatus[2];
+          PTUT_ULONG      RamCheckFile;
+          PTUT_UBYTE      RamStatus[2];
 
           RamCheckFile  =  open(UPDATE_DEVICE_NAME,O_RDWR);
           Data8 = FAIL;
@@ -5383,7 +5383,7 @@ void      Tst(void)
             read(RamCheckFile,RamStatus,2);
             close(RamCheckFile);
 
-            if ((RamStatus[0] == ((UBYTE)(~(RamStatus[1])))) && (0 == RamStatus[0]))
+            if ((RamStatus[0] == ((PTUT_UBYTE)(~(RamStatus[1])))) && (0 == RamStatus[0]))
             {
               Data8 = OK;
             }
@@ -5417,7 +5417,7 @@ void      Tst(void)
 void      BufPrint(char Cmd,char *pFormat, ...)
 {
   static  char Buf[BUFPRINTSIZE];
-  static  ULONG BufIn = 0;
+  static  PTUT_ULONG BufIn = 0;
   static  char Full = 0;
   char    Format[16];
   int     FormatIn = 0;

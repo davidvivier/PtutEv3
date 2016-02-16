@@ -546,9 +546,9 @@ char      *HwId = "03";
  */
 
 
-#define   VtoC(V)               ((UWORD)((V * ADC_RES) / ADC_REF))
-#define   CtoV(C)               ((UWORD)((C * ADC_REF) / ADC_RES))
-#define   MtoV(M)               ((UWORD)((M * ADC_REF * 100) / (ADC_RES * 52)))
+#define   VtoC(V)               ((PTUT_UWORD)((V * ADC_RES) / ADC_REF))
+#define   CtoV(C)               ((PTUT_UWORD)((C * ADC_REF) / ADC_RES))
+#define   MtoV(M)               ((PTUT_UWORD)((M * ADC_REF * 100) / (ADC_RES * 52)))
 
 #define   KB                    1024
 
@@ -703,10 +703,10 @@ typedef   struct                        // Object
   IP      Ip;                           //!< Object instruction pointer
   LP      pLocal;                       //!< Local variable pointer
 #ifndef DISABLE_NEW_CALL_MUTEX
-  UBYTE   ObjStatus;                    //!< Object status
-  UBYTE   Blocked;
+  PTUT_UBYTE   ObjStatus;                    //!< Object status
+  PTUT_UBYTE   Blocked;
 #else
-  UWORD   ObjStatus;                    //!< Object status
+  PTUT_UWORD   ObjStatus;                    //!< Object status
 #endif
   union                                 //!< Different meaning for SUBCALL and BLOCKS
   {
@@ -733,11 +733,11 @@ BRKP;
  */
 typedef   struct
 {
-  ULONG     InstrCnt;                   //!< Instruction counter used for performance analyses
-  ULONG     InstrTime;                  //!< Instruction time used for performance analyses
+  PTUT_ULONG     InstrCnt;                   //!< Instruction counter used for performance analyses
+  PTUT_ULONG     InstrTime;                  //!< Instruction time used for performance analyses
 
-  ULONG     StartTime;                  //!< Program start time [mS]
-  ULONG     RunTime;                    //!< Program run time [uS]
+  PTUT_ULONG     StartTime;                  //!< Program start time [mS]
+  PTUT_ULONG     RunTime;                    //!< Program run time [uS]
 
   IP        pImage;                     //!< Pointer to start of image
   GP        pData;                      //!< Pointer to start of data
@@ -757,7 +757,7 @@ typedef   struct
   BRKP      Brkp[MAX_BREAKPOINTS];      //!< Storage for breakpoint logic
 
   LABEL     Label[MAX_LABELS];          //!< Storage for labels
-  UWORD     Debug;                      //!< Debug flag
+  PTUT_UWORD     Debug;                      //!< Debug flag
 
   DATA8     Name[FILENAME_SIZE];
 
@@ -773,7 +773,7 @@ PRG;
  */
 typedef   struct // if data type changes - remember to change "cInputTypeDataInit" !
 {
-  SBYTE     Name[TYPE_NAME_LENGTH + 1]; //!< Device name
+  PTUT_SBYTE     Name[TYPE_NAME_LENGTH + 1]; //!< Device name
   DATA8     Type;                       //!< Device type
   DATA8     Connection;
   DATA8     Mode;                       //!< Device mode
@@ -788,11 +788,11 @@ typedef   struct // if data type changes - remember to change "cInputTypeDataIni
   DATAF     PctMax;                     //!< Percent maximum value  (e.c. 100.0)
   DATAF     SiMin;                      //!< SI unit minimum value  (e.c. -100.0)
   DATAF     SiMax;                      //!< SI unit maximum value  (e.c. 100.0)
-  UWORD     InvalidTime;                //!< mS from type change to valid data
-  UWORD     IdValue;                    //!< Device id value        (e.c. 0 ~ UART)
+  PTUT_UWORD     InvalidTime;                //!< mS from type change to valid data
+  PTUT_UWORD     IdValue;                    //!< Device id value        (e.c. 0 ~ UART)
   DATA8     Pins;                       //!< Device pin setup
-  SBYTE     Symbol[SYMBOL_LENGTH + 1];  //!< SI unit symbol
-  UWORD     Align;
+  PTUT_SBYTE     Symbol[SYMBOL_LENGTH + 1];  //!< SI unit symbol
+  PTUT_UWORD     Align;
 }
 TYPES;
 
@@ -854,7 +854,7 @@ extern    IP        GetImageStart(void);                     // Get pointer to s
 
 extern    void      SetDispatchStatus(DSPSTAT Status);       // Set dispatch status (result from executing byte code)
 
-extern    void      SetInstructions(ULONG Instructions);     // Set number of instructions before VMThread change
+extern    void      SetInstructions(PTUT_ULONG Instructions);     // Set number of instructions before VMThread change
 
 extern    PRGID     CurrentProgramId(void);                  // Get current program id
 
@@ -872,13 +872,13 @@ extern    IP        GetObjectIp(void);                       // Get IP
 
 extern    void      SetObjectIp(IP Ip);                      // Set IP
 
-extern    ULONG     GetTimeUS(void);                         // Get uS
+extern    PTUT_ULONG     GetTimeUS(void);                         // Get uS
 
-extern    ULONG     GetTimeMS(void);                         // Get mS
+extern    PTUT_ULONG     GetTimeMS(void);                         // Get mS
 
-extern    ULONG     GetTime(void);                           // Get actual program time
+extern    PTUT_ULONG     GetTime(void);                           // Get actual program time
 
-extern    ULONG     CurrentObjectIp(void);                   // Get current object ip
+extern    PTUT_ULONG     CurrentObjectIp(void);                   // Get current object ip
 
 extern    void      VmPrint(char *pString);                  // print string
 
@@ -942,11 +942,11 @@ extern    DATA8     LogErrorNumberExists(ERR Error);
 
 typedef   struct
 {
-  ULONG   Calibration[CALPOINTS][COLORS];
-  UWORD   CalLimits[CALPOINTS - 1];
-  UWORD   Crc;
-  UWORD   ADRaw[COLORS];
-  UWORD   SensorRaw[COLORS];
+  PTUT_ULONG   Calibration[CALPOINTS][COLORS];
+  PTUT_UWORD   CalLimits[CALPOINTS - 1];
+  PTUT_UWORD   Crc;
+  PTUT_UWORD   ADRaw[COLORS];
+  PTUT_UWORD   SensorRaw[COLORS];
 }
 COLORSTRUCT;
 
@@ -983,9 +983,9 @@ typedef   struct
 #ifndef DISABLE_FAST_DATALOG_BUFFER
   DATA16  Pin1[INPUTS][DEVICE_LOGBUF_SIZE];      //!< Raw value from analog device
   DATA16  Pin6[INPUTS][DEVICE_LOGBUF_SIZE];      //!< Raw value from analog device
-  UWORD   Actual[INPUTS];
-  UWORD   LogIn[INPUTS];
-  UWORD   LogOut[INPUTS];
+  PTUT_UWORD   Actual[INPUTS];
+  PTUT_UWORD   LogIn[INPUTS];
+  PTUT_UWORD   LogOut[INPUTS];
 #endif
 #ifndef   DISABLE_OLD_COLOR
   COLORSTRUCT  NxtCol[INPUTS];
@@ -1000,7 +1000,7 @@ typedef   struct
   DATA8   OutDcm[OUTPUTS];        //!< Output port device types
   DATA8   OutConn[OUTPUTS];
 #ifndef DISABLE_PREEMPTED_VM
-  UWORD   PreemptMilliSeconds;
+  PTUT_UWORD   PreemptMilliSeconds;
 #endif
 }
 ANALOG;
@@ -1031,10 +1031,10 @@ typedef   struct
   TYPES   TypeData[INPUTS][MAX_DEVICE_MODES]; //!< TypeData
 
 #ifndef DISABLE_FAST_DATALOG_BUFFER
-  UWORD   Repeat[INPUTS][DEVICE_LOGBUF_SIZE];
+  PTUT_UWORD   Repeat[INPUTS][DEVICE_LOGBUF_SIZE];
   DATA8   Raw[INPUTS][DEVICE_LOGBUF_SIZE][UART_DATA_LENGTH];      //!< Raw value from UART device
-  UWORD   Actual[INPUTS];
-  UWORD   LogIn[INPUTS];
+  PTUT_UWORD   Actual[INPUTS];
+  PTUT_UWORD   LogIn[INPUTS];
 #else
   DATA8   Raw[INPUTS][UART_DATA_LENGTH];      //!< Raw value from UART device
 #endif
@@ -1098,10 +1098,10 @@ typedef   struct
   TYPES   TypeData[INPUTS][MAX_DEVICE_MODES]; //!< TypeData
 
 #ifndef DISABLE_FAST_DATALOG_BUFFER
-  UWORD   Repeat[INPUTS][DEVICE_LOGBUF_SIZE];
+  PTUT_UWORD   Repeat[INPUTS][DEVICE_LOGBUF_SIZE];
   DATA8   Raw[INPUTS][DEVICE_LOGBUF_SIZE][IIC_DATA_LENGTH];      //!< Raw value from IIC device
-  UWORD   Actual[INPUTS];
-  UWORD   LogIn[INPUTS];
+  PTUT_UWORD   Actual[INPUTS];
+  PTUT_UWORD   LogIn[INPUTS];
 #else
   DATA8   Raw[INPUTS][IIC_DATA_LENGTH];      //!< Raw value from IIC device
 #endif
@@ -1155,9 +1155,9 @@ typedef   struct
   DATA8   Manufacturer[IIC_NAME_LENGTH + 1];
   DATA8   SensorType[IIC_NAME_LENGTH + 1];
   DATA8   SetupLng;
-  ULONG   SetupString;
+  PTUT_ULONG   SetupString;
   DATA8   PollLng;
-  ULONG   PollString;
+  PTUT_ULONG   PollString;
   DATA8   ReadLng;
 }
 IICSTR;
@@ -1252,7 +1252,7 @@ UI;
 
 typedef   struct
 {
-  UBYTE   Lcd[LCD_BUFFER_SIZE];
+  PTUT_UBYTE   Lcd[LCD_BUFFER_SIZE];
 }
 LCD;
 
@@ -1343,9 +1343,9 @@ NONVOL;
  */
 typedef struct
 {
-  SLONG TachoCounts;
-  SBYTE Speed;
-  SLONG TachoSensor;
+  PTUT_SLONG TachoCounts;
+  PTUT_SBYTE Speed;
+  PTUT_SLONG TachoSensor;
 }MOTORDATA;
 
 typedef struct
@@ -1431,7 +1431,7 @@ typedef struct
   PRG       Program[MAX_PROGRAMS];        //!< Program[0] is the UI byte codes running
 
 
-  ULONG     InstrCnt;                     //!< Instruction counter (performance test)
+  PTUT_ULONG     InstrCnt;                     //!< Instruction counter (performance test)
   IP        pImage;                       //!< Pointer to start of image
   GP        pGlobal;                      //!< Pointer to start of global bytes
   OBJHEAD*  pObjHead;                     //!< Pointer to start of object headers
@@ -1446,52 +1446,52 @@ typedef struct
   GP        ObjGlobalSave;
   LP        ObjLocalSave;
   DSPSTAT   DispatchStatusSave;
-  ULONG     PrioritySave;
+  PTUT_ULONG     PrioritySave;
 
   long      TimerDataSec;
   long      TimerDatanSec;
 
-  UWORD     Debug;
+  PTUT_UWORD     Debug;
 
-  UWORD     Test;
+  PTUT_UWORD     Test;
 
-  UWORD     RefCount;
+  PTUT_UWORD     RefCount;
 
-  ULONG     TimeuS;
+  PTUT_ULONG     TimeuS;
 
-  ULONG     OldTime1;
-  ULONG     OldTime2;
-  ULONG     NewTime;
+  PTUT_ULONG     OldTime1;
+  PTUT_ULONG     OldTime2;
+  PTUT_ULONG     NewTime;
 #ifdef ENABLE_PERFORMANCE_TEST
-  ULONG     PerformTimer;
+  PTUT_ULONG     PerformTimer;
   DATAF     PerformTime;
 #endif
 
   DSPSTAT   DispatchStatus;               //!< Dispatch status
-  ULONG     Priority;                     //!< Object priority
+  PTUT_ULONG     Priority;                     //!< Object priority
 
-  ULONG     Value;
+  PTUT_ULONG     Value;
   HANDLER   Handle;
 
   ERR       Errors[ERROR_BUFFER_SIZE];
-  UBYTE     ErrorIn;
-  UBYTE     ErrorOut;
+  PTUT_UBYTE     ErrorIn;
+  PTUT_UBYTE     ErrorOut;
 
   DATA32    MemorySize;
   DATA32    MemoryFree;
-  ULONG     MemoryTimer;
+  PTUT_ULONG     MemoryTimer;
 
 #ifndef DISABLE_SDCARD_SUPPORT
   DATA32    SdcardSize;
   DATA32    SdcardFree;
-  ULONG     SdcardTimer;
+  PTUT_ULONG     SdcardTimer;
   DATA8     SdcardOk;
 #endif
 
 #ifndef DISABLE_USBSTICK_SUPPORT
   DATA32    UsbstickSize;
   DATA32    UsbstickFree;
-  ULONG     UsbstickTimer;
+  PTUT_ULONG     UsbstickTimer;
   DATA8     UsbstickOk;
 #endif
 

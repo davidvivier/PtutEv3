@@ -82,16 +82,16 @@ int sendBytes(struct ev3_t *EV314_hdl, int count, ...);
 
 
 
-typedef   UWORD     CMDSIZE;
-typedef   UWORD     MSGCNT;
+typedef   PTUT_UWORD     CMDSIZE;
+typedef   PTUT_UWORD     MSGCNT;
 
 
 typedef   struct                        //!< Common command struct
 {
   CMDSIZE CmdSize;
   MSGCNT  MsgCnt;
-  UBYTE   Cmd;
-  UBYTE   PayLoad[];                    //!< Pay load is DIRCMD or SYSCMD
+  PTUT_UBYTE   Cmd;
+  PTUT_UBYTE   PayLoad[];                    //!< Pay load is DIRCMD or SYSCMD
 }
 COMCMD;
 
@@ -99,9 +99,9 @@ COMCMD;
 
 typedef   struct                        //!< Direct command struct
 {
-  UBYTE   Globals;
-  UBYTE   Locals;
-  UBYTE   Code[];
+  PTUT_UBYTE   Globals;
+  PTUT_UBYTE   Locals;
+  PTUT_UBYTE   Code[];
 }
 DIRCMD;
 

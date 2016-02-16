@@ -508,7 +508,7 @@ UI_READ_SUBCODE;
 typedef   enum
 {
   WRITE_FLUSH   = 1,
-  FLOATVALUE    = 2,
+  PTUT_FLOATVALUE    = 2,
   STAMP         = 3,
   PUT_STRING    = 8,
   VALUE8        = 9,
@@ -1563,12 +1563,12 @@ DEVCMD;
 #define   vmPOP3_ABS_WARN_LINE_ENDX     155
 
 
-#define   LONGToBytes(_x)               (UBYTE)((_x) & 0xFF),(UBYTE)((_x >> 8) & 0xFF),(UBYTE)((_x >> 16) & 0xFF),(UBYTE)((_x >> 24) & 0xFF)
-#define   WORDToBytes(_x)               (UBYTE)((_x) & 0xFF),(UBYTE)((_x >> 8) & 0xFF)
-#define   BYTEToBytes(_x)               (UBYTE)((_x) & 0xFF)
+#define   LONGToBytes(_x)               (PTUT_UBYTE)((_x) & 0xFF),(PTUT_UBYTE)((_x >> 8) & 0xFF),(PTUT_UBYTE)((_x >> 16) & 0xFF),(PTUT_UBYTE)((_x >> 24) & 0xFF)
+#define   WORDToBytes(_x)               (PTUT_UBYTE)((_x) & 0xFF),(PTUT_UBYTE)((_x >> 8) & 0xFF)
+#define   BYTEToBytes(_x)               (PTUT_UBYTE)((_x) & 0xFF)
 
 #define   PROGRAMHeader(VersionInfo,NumberOfObjects,GlobalBytes)\
-                                        'L','E','G','O',LONGToBytes(0),WORDToBytes((UWORD)(BYTECODE_VERSION * 100.0)),WORDToBytes(NumberOfObjects),LONGToBytes(GlobalBytes)
+                                        'L','E','G','O',LONGToBytes(0),WORDToBytes((PTUT_UWORD)(BYTECODE_VERSION * 100.0)),WORDToBytes(NumberOfObjects),LONGToBytes(GlobalBytes)
 
 #define   VMTHREADHeader(OffsetToInstructions,LocalBytes)\
                                         LONGToBytes(OffsetToInstructions),0,0,0,0,LONGToBytes(LocalBytes)
@@ -1615,7 +1615,7 @@ DEVCMD;
 #define   LC0(v)                        ((v & PRIMPAR_VALUE) | PRIMPAR_SHORT | PRIMPAR_CONST)
 #define   LC1(v)                        (PRIMPAR_LONG  | PRIMPAR_CONST | PRIMPAR_1_BYTE),(v & 0xFF)
 #define   LC2(v)                        (PRIMPAR_LONG  | PRIMPAR_CONST | PRIMPAR_2_BYTES),(v & 0xFF),((v >> 8) & 0xFF)
-#define   LC4(v)                        (PRIMPAR_LONG  | PRIMPAR_CONST | PRIMPAR_4_BYTES),((ULONG)v & 0xFF),(((ULONG)v >> (ULONG)8) & 0xFF),(((ULONG)v >> (ULONG)16) & 0xFF),(((ULONG)v >> (ULONG)24) & 0xFF)
+#define   LC4(v)                        (PRIMPAR_LONG  | PRIMPAR_CONST | PRIMPAR_4_BYTES),((PTUT_ULONG)v & 0xFF),(((PTUT_ULONG)v >> (PTUT_ULONG)8) & 0xFF),(((PTUT_ULONG)v >> (PTUT_ULONG)16) & 0xFF),(((PTUT_ULONG)v >> (PTUT_ULONG)24) & 0xFF)
 #define   LCA(h)                        (PRIMPAR_LONG  | PRIMPAR_CONST | PRIMPAR_1_BYTE | PRIMPAR_ARRAY),(i & 0xFF)
 
 #define   LV0(i)                        ((i & PRIMPAR_INDEX) | PRIMPAR_SHORT | PRIMPAR_VARIABEL | PRIMPAR_LOCAL)
