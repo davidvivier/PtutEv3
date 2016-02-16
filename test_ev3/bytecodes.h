@@ -823,7 +823,7 @@ FILE_SUBCODE;
 //!
 //! \verbatim
 //!
-
+/*
 typedef   enum
 {
   DELETE              = 0,
@@ -846,6 +846,7 @@ typedef   enum
   ARRAY_SUBCODES
 }
 ARRAY_SUBCODE;
+*/
 
 //! \endverbatim
 
