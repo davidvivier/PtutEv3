@@ -7,6 +7,9 @@
 
 int main( void )  {
 
+
+  printf("program started\n");
+
   //robot();
   //return 0;
   //ev3_t           *ev3 = NULL;
@@ -60,6 +63,7 @@ int main( void )  {
 
 
 
+  printf("init-1\n");
 
   /* Initialize libusb */ 
   status = ev3_init( &ev3 );
@@ -70,6 +74,9 @@ int main( void )  {
   
 
   #ifdef USE_EV3
+
+
+  printf("init-2\n");
 
   /* Look for an EV3 in USB devices list and open it if found */
   status = ev3_find_and_open( ev3 );
@@ -82,6 +89,9 @@ int main( void )  {
   }
 
   #endif
+
+
+  printf("init-3\n");
     
   /* Move 32 bit constant to global variable (response buffer) */
   clock_gettime( CLOCK_MONOTONIC, &ts1 );
@@ -93,6 +103,8 @@ int main( void )  {
 
   //motorStart(2);
   //motorStop(2);
+
+  printf("init-ok\n");
 
   run();
 

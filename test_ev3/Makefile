@@ -9,6 +9,8 @@ stop:
 	gcc -Wall -o stop stopAll.c ev3.c api.c -lusb-1.0 -lrt
 flux:
 	gcc -Wall -o flux flux.c
+hello:
+	gcc -Wall -o hello hello.c
 me:
 	touch xkcd_me
 a:
