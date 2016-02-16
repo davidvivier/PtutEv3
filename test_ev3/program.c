@@ -34,7 +34,7 @@ int robot() {
 	while (!done) {
 
 		j = 0;
-		octets = listenSocket();
+		//octets = listenSocket();
 
 		do  {
 			
@@ -229,7 +229,7 @@ int run() {
 
 	//testSensor(1);
 
-		robot();
+	//	robot();
 	 				/*
 	
 	int a = 10000;
@@ -370,12 +370,14 @@ int run() {
 
 
 
-	/*
+	 // 			/*
 	motorStart(MOTOR_LEFT);
 
 	sleep(2);
 
 	motorStop(MOTOR_LEFT);
+
+	/*
 	motorStart(MOTOR_RIGHT);
 
 	sleep(2);
