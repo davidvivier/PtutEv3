@@ -1,6 +1,8 @@
-$(VERBOSE).SILENT:
+#$(VERBOSE).SILENT:
 all:
 	gcc -o ev3 main.c ev3.c api.c program.c flux.c -lusb-1.0 -lrt
+nosock:
+	gcc -o ev3 main.c ev3.c api.c program.c -lusb-1.0 -lrt
 warn:
 	gcc -Wall -o ev3 main.c ev3.c api.c program.c flux.c -lusb-1.0 -lrt
 stop:
