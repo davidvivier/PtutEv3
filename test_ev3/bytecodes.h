@@ -739,7 +739,7 @@ typedef   enum
   PICTURE       = 7,
   VALUE         = 8,
   FILLRECT      = 9,
-  RECT          = 10,
+  //RECT          = 10,
   NOTIFICATION  = 11,
   QUESTION      = 12,
   KEYBOARD      = 13,
@@ -929,7 +929,7 @@ typedef   enum
   GET_SIZE            = 1,    // VM       get string size
   ADD                 = 2,    // VM       add two strings
   COMPARE             = 3,    // VM       compare two strings
-  DUPLICATE           = 5,    // VM       duplicate one string to another
+//  DUPLICATE           = 5,    // VM       duplicate one string to another
   VALUE_TO_STRING     = 6,
   STRING_TO_VALUE     = 7,
   STRIP               = 8,
