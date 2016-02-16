@@ -33,7 +33,7 @@ int main () {
   }
 
 
-	
+	int stopAllMotors();
 
 
     ev3_close( ev3 );
