@@ -133,7 +133,6 @@ int forward() {
   */
 
   success = motorStart(MOTOR_LEFT | MOTOR_RIGHT);
-
   return success;
 }
 
