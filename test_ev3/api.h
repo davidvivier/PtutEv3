@@ -21,7 +21,7 @@
 #define MOTOR_HEAD MOTOR_B
 
 
-//#define USE_EV3
+#define USE_EV3
 
 
 #define SENSOR_1 1

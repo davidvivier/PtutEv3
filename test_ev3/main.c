@@ -6,6 +6,8 @@
 
 
 int main( void )  {
+ 
+
 
 
   printf("program started\n");
@@ -63,8 +65,12 @@ int main( void )  {
 
 
 
+<<<<<<< HEAD
   printf("init-1\n");
 
+=======
+  printf( "1\n" );
+>>>>>>> repair
   /* Initialize libusb */ 
   status = ev3_init( &ev3 );
   if ( status != EV3_OK )  {
@@ -72,26 +78,39 @@ int main( void )  {
     exit( -1 );
   }
   
+  printf( "2\n" );
 
   #ifdef USE_EV3
+  
+  printf( "3\n" );
 
 
   printf("init-2\n");
 
   /* Look for an EV3 in USB devices list and open it if found */
   status = ev3_find_and_open( ev3 );
+  printf( "4\n" );
   if ( status )  {
-    if ( status == EV3_NOT_PRESENT )
+    
+    if ( status == EV3_NOT_PRESENT ) {
+      printf("EV3 not found");
       fprintf( stderr, "EV3 not found. Is it properly plugged in USB port?\n" );
-    else
+    }
+    else{
+      printf("Erreur pendant le scan");
       fprintf( stderr, "Error while scanning for EV3. (try with sudo)\n" );
+    }
     exit( -2 );
   }
 
   #endif
 
+<<<<<<< HEAD
 
   printf("init-3\n");
+=======
+  printf( "5\n" );
+>>>>>>> repair
     
   /* Move 32 bit constant to global variable (response buffer) */
   clock_gettime( CLOCK_MONOTONIC, &ts1 );
@@ -100,9 +119,10 @@ int main( void )  {
   //ev3_send_buf( ev3, input_read, sizeof( input_read ) -1 );
   //ev3_send_buf( ev3, input_read_si, sizeof( input_read_si ) -1 );
   //ev3_send_buf( ev3, get_raw, sizeof( get_raw ) -1 );
-
-  //motorStart(2);
-  //motorStop(2);
+  
+  //motorSetSpeed(5,40);
+  //motorStart(5);
+  motorStop(5);
 
   printf("init-ok\n");
 

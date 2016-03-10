@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <libusb-1.0/libusb.h>
 
-#define EV3_USB_TIMEOUT             2000    // Milliseconds
+#define EV3_USB_TIMEOUT             2000   // Milliseconds
 
 /* These informations can be obtained with lsusb -v */
 #define EV3_INTERFACE_NUMBER        0

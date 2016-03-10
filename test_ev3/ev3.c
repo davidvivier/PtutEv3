@@ -21,7 +21,6 @@ ev3_error_t ev3_init( ev3_t **ev3 )  {
   int status;
   
   status = libusb_init( NULL );
-  
   if ( status ) 
     return EV3_USB_ERROR;
   
@@ -51,6 +50,7 @@ ev3_error_t ev3_find_and_open( ev3_t *ev3 )  {
             ( desc.idProduct == PRODUCT_EV3 ) )  {
         
         /* Open the device */
+	printf("open");
         status = libusb_open( dev, &ev3->hdl );
         if ( status < 0 )  {
           libusb_free_device_list( devs, 1 );
@@ -78,7 +78,7 @@ ev3_error_t ev3_find_and_open( ev3_t *ev3 )  {
   return EV3_NOT_PRESENT;
 }
 
-ev3_error_t ev3_close( ev3_t *ev3 )  {
+ev3_error_t ev3_close( ev3_t *ev3 )  { 
   
   libusb_release_interface( ev3->hdl, EV3_INTERFACE_NUMBER );
   libusb_close( ev3->hdl );
@@ -92,17 +92,24 @@ ev3_error_t ev3_close( ev3_t *ev3 )  {
 
 ev3_error_t ev3_send_buf( ev3_t *ev3, char *buf, int len )  {
   int  status, transfered = 0;
+<<<<<<< HEAD
   printf("1\n");
   status = libusb_bulk_transfer( ev3->hdl, EV3_EP_OUT, buf, len, &transfered, EV3_USB_TIMEOUT );
   printf("2\n");
   printf("status = %d\n", status);
 
+=======
+  printf("a\n");
+  status = libusb_bulk_transfer( ev3->hdl, EV3_EP_OUT, buf, len, &transfered, EV3_USB_TIMEOUT );
+  
+  printf("status = %d\n", status);
+  
+>>>>>>> repair
   if ( status  )
     return EV3_USB_WRITE_ERROR;
   
   if ( transfered != len )
     return EV3_USB_PARTIAL_TRANS;
-
   return EV3_OK;
 }
 
